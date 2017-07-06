@@ -1,0 +1,25 @@
+apply plugin: 'java-library'
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    flatDir name: 'libs', dirs: "$rootProject.rootDir/lib"
+}
+
+dependencies {
+
+	compile (':freemarker:')
+	compile (':h2:1.2.137')
+	compile (':obob:1.1')
+	compile (':mysql-connector-java:5.0.5-bin')
+	compile (':ojdbc14:')
+	compile (':postgresql-8.4-701.jdbc3:')
+	compile (':rapid-generator:')
+	compile (':sqljdbc:')
+	
+    api 'org.apache.commons:commons-math3:3.6.1'
+
+    implementation 'com.google.guava:guava:20.0'
+
+    testImplementation 'junit:junit:4.12'
+}
+

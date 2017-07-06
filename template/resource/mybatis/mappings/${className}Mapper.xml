@@ -1,0 +1,79 @@
+<#assign className = table.className>   
+<#assign classNameFirstLower = table.classNameFirstLower>   
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
+<#macro classType>${basepackage}.po.${className}Po</#macro>
+<mapper namespace="${basepackage}.dao.${className}Dao">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}">
+        INSERT INTO ${table.sqlName} (
+        <#list table.columns as column>
+        	${column.sqlName} <#if column_has_next>,</#if>
+        </#list>
+        ) VALUES (
+        <#list table.columns as column>
+        	<@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
+        </#list>        
+        )
+    	<selectKey resultType="java.lang.Integer" keyProperty="${table.idColumn.columnNameFirstLower}">
+            select LAST_INSERT_ID() as ${table.idColumn.columnNameFirstLower}
+        </selectKey>
+	</insert>
+    
+	<update id="update">
+        UPDATE ${table.sqlName} SET
+	        <#list table.notPkColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
+	        </#list>
+        WHERE 
+        	<#list table.compositeIdColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+	        </#list>	        
+	</update>
+
+    <delete id="delete" parameterType="java.util.Map">
+        DELETE FROM ${table.sqlName} WHERE
+        <#list table.compositeIdColumns as column>
+        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+		</#list>
+    </delete>
+    
+    <select id="getById" parameterType="java.util.Map" resultType="<@classType/>">
+    	SELECT *
+	    FROM ${table.sqlName} 
+        WHERE 
+			<#list table.compositeIdColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+	        </#list>    
+	</select>
+	
+	<sql id="where">
+		<where>	      				
+	       <#list table.columns as column>
+	       <#if column.isDateTimeColumn>
+	       <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower}Begin)">
+				AND ${column.sqlName} >= <@mapperEl column.columnNameFirstLower+"Begin"/>
+		   </if>
+		   <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower}End)">
+				AND ${column.sqlName} &lt;= <@mapperEl column.columnNameFirstLower+"End"/>
+		   </if>
+	       <#else>
+	       <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower})">
+				AND ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+			</if>
+	       </#if>
+	       </#list>			
+		</where>
+	</sql>
+
+    <select id="select" parameterType="java.util.Map" resultType="<@classType/>">
+    	SELECT *
+	    FROM ${table.sqlName} 
+		<include refid="where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${r'${sortColumns}'}
+		</if>
+    </select>
+</mapper>
+
