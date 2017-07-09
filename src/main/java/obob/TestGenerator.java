@@ -12,11 +12,11 @@ public class TestGenerator {
 		GeneratorProperties.setProperty("author", args[0]);
 		
 		GeneratorFacade g = new GeneratorFacade();
-		//删除生成器的输出目录//
+		//鍒犻櫎鐢熸垚鍣ㄧ殑杈撳嚭鐩綍//
         g.deleteOutRootDir();
-		//通过数据库表生成文件,template为模板的根目录
-		g.generateByTable("project_bizresults","template");
-        //自动搜索数据库中的所有表并生成文件,template为模板的根目录
+		//閫氳繃鏁版嵁搴撹〃鐢熸垚鏂囦欢,template涓烘ā鏉跨殑鏍圭洰褰�
+		g.generateByTable("person_role_relation","template");
+        //鑷姩鎼滅储鏁版嵁搴撲腑鐨勬墍鏈夎〃骞剁敓鎴愭枃浠�,template涓烘ā鏉跨殑鏍圭洰褰�
         //g.generateByAllTable("template");
         //g.generateByClass(Blog.class,"template_clazz");
 	}

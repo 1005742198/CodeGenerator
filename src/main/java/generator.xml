@@ -14,8 +14,10 @@
 
 	<entry key="outRoot">.\generate</entry>
 
-	<entry key="jdbc.username">user_dev</entry>
-	<entry key="jdbc.password">GMuo4dUPQpFofMX1nAlY</entry>
+	<!-- <entry key="jdbc.username">user_dev</entry>
+	<entry key="jdbc.password">GMuo4dUPQpFofMX1nAlY</entry> -->
+	<entry key="jdbc.username">root</entry>
+	<entry key="jdbc.password">root</entry>
 		
 	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置  
 	<entry key="jdbc.schema"></entry>
@@ -34,8 +36,9 @@
 	<entry key="jdbc.driver">org.h2.Driver</entry>
 	-->	
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://172.16.21.10:3306/biz_exchange_qa?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<!-- <entry key="jdbc.url">jdbc:mysql://172.16.21.10:3306/biz_exchange_qa?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
 	<!-- <entry key="jdbc.url">jdbc:mysql://172.16.21.3:3306/biz_reg_record?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/human?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	
 
